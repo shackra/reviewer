@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/gorilla/mux"
+	"github.com/shackra/reviewer/internal/models"
 	"github.com/subtle-byte/mockigo/match"
 )
 
@@ -21,10 +22,7 @@ func TestListProducts(t *testing.T) {
 	service := NewServiceMock(t)
 	service.EXPECT().
 		ListProducts(match.Arg[int](match.Eq[int](1)), match.Arg[int](match.Eq[int](10))).
-		Return(ListProducts{
-			Products: []Product{},
-			NextPage: new(string),
-		}, nil)
+		Return(&models.Products{}, nil)
 
 	api := &Server{
 		productService: service,

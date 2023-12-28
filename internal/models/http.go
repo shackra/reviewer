@@ -1,6 +1,6 @@
-package http
+package models
 
-type Product struct {
+type ListProduct struct {
 	ID            string
 	Name          string
 	Description   string
@@ -8,7 +8,7 @@ type Product struct {
 	OverallRating float32
 }
 
-type ListProducts struct {
-	Products []Product
-	NextPage *string
+type Products struct {
+	Products []ListProduct
+	NextPage *int
 }

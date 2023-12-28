@@ -8,15 +8,22 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/shackra/reviewer/internal/models"
 )
 
 type Service interface {
-	ListProducts(int, int) (interface{}, error)
+	ListProducts(int, int) (*models.Products, error)
 	AddReview(string, string, string, float32) error
 }
 
 type Server struct {
 	productService Service
+}
+
+func New(service Service) *Server {
+	return &Server{
+		productService: service,
+	}
 }
 
 type ErrorMessage struct {

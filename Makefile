@@ -16,6 +16,7 @@ format:
 
 generate-mocks:
 	@cd $(PROJECT_DIR)/internal/transport/http && mockigo
+	@cd $(PROJECT_DIR)/internal/service/products && mockigo
 
 test:
 	go test -v ./...
