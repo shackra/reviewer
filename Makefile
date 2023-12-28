@@ -14,6 +14,12 @@ format:
 	@golines --chain-split-dots --ignore-generated \
 		--reformat-tags --shorten-comments -w $(PROJECT_DIR)
 
+generate-mocks:
+	@cd $(PROJECT_DIR)/internal/transport/http && mockigo
+
+test:
+	go test -v ./...
+
 .PHONY: build format
 
 # end
