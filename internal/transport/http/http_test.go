@@ -36,7 +36,7 @@ func TestListProducts(t *testing.T) {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
 	}
 
-	expected := `{"Products":null,"NextPage":null}`
+	expected := `{"products":null,"next_page":null}`
 	if rr.Body.String() != expected {
 		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), expected)
 	}
@@ -71,7 +71,7 @@ func TestListProductsFails(t *testing.T) {
 		)
 	}
 
-	expected := `{"Status":"error","Reason":"random error"}`
+	expected := `{"status":"error","reason":"random error"}`
 	if strings.TrimSpace(rr.Body.String()) != expected {
 		t.Errorf(
 			"handler returned unexpected body: got '%v' want '%v'",
@@ -92,16 +92,16 @@ func TestAddReview(t *testing.T) {
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/product/{productID}/review", api.AddReview)
+	r.HandleFunc("/product/{id}/review", api.AddReview)
 
 	// Crea una solicitud HTTP de prueba con el cuerpo JSON
-	body := `{"Name": "Test Name", "Text": "Test review text", "Rating": 5}`
+	body := `{"name": "Test Name", "text": "Test review text", "rating": 5}`
 	req, err := http.NewRequest("POST", "/product/123/review", strings.NewReader(body))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	req = mux.SetURLVars(req, map[string]string{"productID": "123"})
+	req = mux.SetURLVars(req, map[string]string{"id": "123"})
 
 	rr := httptest.NewRecorder()
 
@@ -111,7 +111,7 @@ func TestAddReview(t *testing.T) {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
 	}
 
-	expected := `{"Status":"ok","Reason":""}`
+	expected := `{"status":"ok","reason":""}`
 	if strings.TrimSpace(rr.Body.String()) != expected {
 		t.Errorf(
 			"handler returned unexpected body: got '%v' want '%v'",
@@ -132,16 +132,16 @@ func TestAddReviewFails(t *testing.T) {
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/product/{productID}/review", api.AddReview)
+	r.HandleFunc("/product/{id}/review", api.AddReview)
 
 	// Crea una solicitud HTTP de prueba con el cuerpo JSON
-	body := `{"Name": "Test Name", "Text": "Test review text", "Rating": 5}`
+	body := `{"name": "Test Name", "text": "Test review text", "rating": 5}`
 	req, err := http.NewRequest("POST", "/product/123/review", strings.NewReader(body))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	req = mux.SetURLVars(req, map[string]string{"productID": "123"})
+	req = mux.SetURLVars(req, map[string]string{"id": "123"})
 
 	rr := httptest.NewRecorder()
 
@@ -151,7 +151,7 @@ func TestAddReviewFails(t *testing.T) {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
 	}
 
-	expected := `{"Status":"error","Reason":"random error"}`
+	expected := `{"status":"error","reason":"random error"}`
 	if strings.TrimSpace(rr.Body.String()) != expected {
 		t.Errorf(
 			"handler returned unexpected body: got '%v' want '%v'",

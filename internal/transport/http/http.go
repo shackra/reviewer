@@ -113,7 +113,7 @@ func (s *Server) GetProducts(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) AddReview(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	productID := vars["productID"]
+	productID := vars["id"]
 
 	var p AddProductReviewRequest
 	err := json.NewDecoder(r.Body).Decode(&p)
