@@ -65,6 +65,7 @@ func (m *Mongo) GetProducts(page, size int) ([]models.Product, bool, error) {
 func (m *Mongo) AddProductReview(id, reviewer, text string, rating float32) error {
 	collection := m.client.Database(database).Collection(collectionName)
 
+	// FIXME: return error if ID does not exist!
 	_, err := collection.UpdateOne(
 		context.TODO(),
 		bson.M{"_id": id},
