@@ -27,8 +27,8 @@ func New(service Service) *Server {
 }
 
 type ErrorMessage struct {
-	Status string
-	Reason string
+	Status string `json:"status"`
+	Reason string `json:"reason"`
 }
 
 func (e *ErrorMessage) Message() string {
@@ -119,6 +119,12 @@ func (s *Server) AddReview(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
 		err = newErrorMessage(err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	err = validate(p)
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
