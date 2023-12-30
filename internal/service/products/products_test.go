@@ -134,7 +134,7 @@ func TestAddProductReview(t *testing.T) {
 		mongo: repo,
 	}
 
-	err := service.AddProductReview("123", "Test User", "Lorem Ipsum", 5)
+	err := service.AddReview("123", "Test User", "Lorem Ipsum", 5)
 	if err != nil {
 		t.Errorf("got unexpected error %v", err)
 	}
@@ -151,7 +151,7 @@ func TestAddProductReviewFails(t *testing.T) {
 		mongo: repo,
 	}
 
-	err := service.AddProductReview("123", "Test User", "Lorem Ipsum", 5)
+	err := service.AddReview("123", "Test User", "Lorem Ipsum", 5)
 	if err == nil {
 		t.Errorf("got unexpected error %v", err)
 	}

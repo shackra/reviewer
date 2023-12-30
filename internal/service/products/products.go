@@ -11,6 +11,12 @@ type Repository interface {
 	AddProductReview(id, reviewer, text string, rating float32) error
 }
 
+func New(db Repository) *Service {
+	return &Service{
+		mongo: db,
+	}
+}
+
 func (s *Service) ListProducts(page, amount int) (*models.Products, error) {
 	pds, nextPage, err := s.mongo.GetProducts(page, amount)
 	if err != nil {
@@ -36,7 +42,7 @@ func (s *Service) ListProducts(page, amount int) (*models.Products, error) {
 	return list, nil
 }
 
-func (s *Service) AddProductReview(id, reviewer, text string, rating float32) error {
+func (s *Service) AddReview(id, reviewer, text string, rating float32) error {
 	err := s.mongo.AddProductReview(id, reviewer, text, rating)
 	if err != nil {
 		return err
