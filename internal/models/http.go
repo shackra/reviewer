@@ -1,14 +1,14 @@
 package models
 
 type ListProduct struct {
-	ID            string
-	Name          string
-	Description   string
-	ThumbnailURL  string
-	OverallRating float32
+	ID            string  `json:"id"`
+	Name          string  `json:"name"`
+	Description   string  `json:"description"`
+	ThumbnailURL  string  `json:"thumbnail_url"`
+	OverallRating float32 `json:"overall_rating"`
 }
 
 type Products struct {
-	Products []ListProduct
-	NextPage *int
+	Products []ListProduct `json:"products"`
+	NextPage *int          `json:"next_page"`
 }
