@@ -6,6 +6,7 @@ import (
 
 	"github.com/shackra/reviewer/internal/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -70,9 +71,14 @@ func (m *Mongo) AddProductReview(
 ) error {
 	collection := m.client.Database(database).Collection(collectionName)
 
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return fmt.Errorf("invalid ObjectID '%s'", id)
+	}
+
 	result, err := collection.UpdateOne(
 		ctx,
-		bson.D{{"_id", id}},
+		bson.D{{"_id", objID}},
 		bson.D{
 			{"$push", bson.D{
 				{"reviews", models.Review{

@@ -141,6 +141,9 @@ func (s *Server) AddReview(w http.ResponseWriter, r *http.Request) {
 		if strings.Contains(err.Error(), "no document with _id") {
 			statusError = http.StatusNotFound
 		}
+		if strings.Contains(err.Error(), "invalid ObjectID") {
+			statusError = http.StatusBadRequest
+		}
 		err = newErrorMessage(err)
 		http.Error(w, err.Error(), statusError)
 		return
