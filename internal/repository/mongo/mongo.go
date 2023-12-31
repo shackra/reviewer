@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/shackra/reviewer/internal/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -10,7 +11,7 @@ import (
 )
 
 const (
-	database       = "reviewdb"
+	database       = "app"
 	collectionName = "product"
 )
 
@@ -69,22 +70,47 @@ func (m *Mongo) AddProductReview(
 ) error {
 	collection := m.client.Database(database).Collection(collectionName)
 
-	// FIXME: return error if ID does not exist!
-	_, err := collection.UpdateOne(
+	result, err := collection.UpdateOne(
 		ctx,
-		bson.M{"_id": id},
-		bson.M{
-			"$push": bson.M{
-				"reviews": models.Review{
+		bson.D{{"_id", id}},
+		bson.D{
+			{"$push", bson.D{
+				{"reviews", models.Review{
 					Name:   reviewer,
 					Text:   text,
 					Rating: rating,
-				},
-			},
+				}},
+			}},
 		},
 	)
 	if err != nil {
 		return err
+	}
+
+	if result.MatchedCount == 0 {
+		return fmt.Errorf("no document with _id '%s' found", id)
+	}
+
+	return nil
+}
+
+func (m *Mongo) AddProduct(ctx context.Context, name, description, image string) error {
+	collection := m.client.Database(database).Collection(collectionName)
+
+	newProduct := models.Product{
+		Name:        name,
+		Description: description,
+		ImgURL:      image,
+		Reviews:     []models.Review{},
+	}
+
+	result, err := collection.InsertOne(ctx, newProduct)
+	if err != nil {
+		return err
+	}
+
+	if result.InsertedID == "" {
+		return fmt.Errorf("nothing was recorded")
 	}
 
 	return nil

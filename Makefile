@@ -9,6 +9,12 @@ PROJECT_DIR := $(CURDIR)
 build:
 	@go build -o $(PROJECT_DIR)/main $(PROJECT_DIR)/cmd/reviewer
 
+build-seeder:
+	@go build -o $(PROJECT_DIR)/seeder $(PROJECT_DIR)/cmd/seeder
+
+seed: build-seeder
+	@$(PROJECT_DIR)/seeder
+
 format:
 	@gofumpt -extra -w $(PROJECT_DIR)
 	@golines --chain-split-dots --ignore-generated \
