@@ -7,9 +7,13 @@ mkShell {
     docker-compose-language-service
     dockfmt
     go
+    gopls
     gofumpt
     golangci-lint
     golangci-lint-langserver
     golines
+    delve
+
+    gccStdenv
   ];
 }
