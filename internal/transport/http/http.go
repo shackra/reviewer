@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 	"github.com/shackra/reviewer/internal/models"
@@ -136,8 +137,12 @@ func (s *Server) AddReview(w http.ResponseWriter, r *http.Request) {
 
 	err = s.productService.AddReview(ctx, productID, p.Name, p.Text, p.Rating)
 	if err != nil {
+		statusError := http.StatusInternalServerError
+		if strings.Contains(err.Error(), "no document with _id") {
+			statusError = http.StatusNotFound
+		}
 		err = newErrorMessage(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), statusError)
 		return
 	}
 

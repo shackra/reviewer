@@ -1,16 +1,16 @@
 package models
 
 type Product struct {
-	ID          string
-	Name        string
-	Description string
-	ImgURL      string
-	Reviews     []Review
+	ID          string   `bson:"_id,omitempty"`
+	Name        string   `bson:"name"`
+	Description string   `bson:"description"`
+	ImgURL      string   `bson:"img_url"`
+	Reviews     []Review `bson:"reviews"`
 }
 
 type Review struct {
-	ID     string
-	Name   string
-	Text   string
-	Rating float32
+	ID     string  `bson:"_id,omitempty"`
+	Name   string  `bson:"name"`
+	Text   string  `bson:"text"`
+	Rating float32 `bson:"rating"`
 }

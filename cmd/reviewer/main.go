@@ -16,7 +16,6 @@ import (
 )
 
 func main() {
-	// Define la cadena de conexión de MongoDB
 	connectionString := os.Getenv("MONGODB_URL")
 
 	clientOptions := options.Client().ApplyURI(connectionString)
@@ -46,6 +45,8 @@ func main() {
 
 	rr := mux.NewRouter()
 
+	rr.Use(logMW)
+
 	rr.HandleFunc("/product/{id}/review", server.AddReview).Methods(http.MethodPost)
 	rr.HandleFunc("/product", server.GetProducts).Methods(http.MethodGet)
 
@@ -59,4 +60,12 @@ func main() {
 	if err != nil {
 		log.Printf("server exited with error %v", err)
 	}
+}
+
+func logMW(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s - %s (%s)", r.Method, r.URL.Path, r.RemoteAddr)
+
+		next.ServeHTTP(w, r)
+	})
 }
