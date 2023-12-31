@@ -1,6 +1,7 @@
 package products
 
 import (
+	"context"
 	"errors"
 	"testing"
 
@@ -11,7 +12,7 @@ import (
 func TestListProducts(t *testing.T) {
 	repo := NewRepositoryMock(t)
 
-	repo.EXPECT().GetProducts(match.Eq(1), match.Eq(10)).Return([]models.Product{
+	repo.EXPECT().GetProducts(match.AnyCtx(), match.Eq(1), match.Eq(10)).Return([]models.Product{
 		{
 			ID:          "",
 			Name:        "",
@@ -96,7 +97,7 @@ func TestListProducts(t *testing.T) {
 		mongo: repo,
 	}
 
-	result, err := service.ListProducts(1, 10)
+	result, err := service.ListProducts(context.TODO(), 1, 10)
 	if err != nil {
 		t.Errorf("got unexpected error %v", err)
 	}
@@ -110,14 +111,14 @@ func TestListProductsFail(t *testing.T) {
 	repo := NewRepositoryMock(t)
 
 	repo.EXPECT().
-		GetProducts(match.Eq(1), match.Eq(10)).
+		GetProducts(match.AnyCtx(), match.Eq(1), match.Eq(10)).
 		Return(nil, false, errors.New(`random error`))
 
 	service := &Service{
 		mongo: repo,
 	}
 
-	_, err := service.ListProducts(1, 10)
+	_, err := service.ListProducts(context.TODO(), 1, 10)
 	if err == nil {
 		t.Errorf("got unexpected error %v", err)
 	}
@@ -127,14 +128,14 @@ func TestAddProductReview(t *testing.T) {
 	repo := NewRepositoryMock(t)
 
 	repo.EXPECT().
-		AddProductReview(match.Eq("123"), match.Eq("Test User"), match.Eq("Lorem Ipsum"), match.Eq[float32](5)).
+		AddProductReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test User"), match.Eq("Lorem Ipsum"), match.Eq[float32](5)).
 		Return(nil)
 
 	service := &Service{
 		mongo: repo,
 	}
 
-	err := service.AddReview("123", "Test User", "Lorem Ipsum", 5)
+	err := service.AddReview(context.TODO(), "123", "Test User", "Lorem Ipsum", 5)
 	if err != nil {
 		t.Errorf("got unexpected error %v", err)
 	}
@@ -144,14 +145,14 @@ func TestAddProductReviewFails(t *testing.T) {
 	repo := NewRepositoryMock(t)
 
 	repo.EXPECT().
-		AddProductReview(match.Eq("123"), match.Eq("Test User"), match.Eq("Lorem Ipsum"), match.Eq[float32](5)).
+		AddProductReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test User"), match.Eq("Lorem Ipsum"), match.Eq[float32](5)).
 		Return(errors.New(`random error`))
 
 	service := &Service{
 		mongo: repo,
 	}
 
-	err := service.AddReview("123", "Test User", "Lorem Ipsum", 5)
+	err := service.AddReview(context.TODO(), "123", "Test User", "Lorem Ipsum", 5)
 	if err == nil {
 		t.Errorf("got unexpected error %v", err)
 	}

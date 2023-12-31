@@ -1,6 +1,7 @@
 package http
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -12,8 +13,8 @@ import (
 )
 
 type Service interface {
-	ListProducts(int, int) (*models.Products, error)
-	AddReview(string, string, string, float32) error
+	ListProducts(context.Context, int, int) (*models.Products, error)
+	AddReview(context.Context, string, string, string, float32) error
 }
 
 type Server struct {
@@ -88,7 +89,9 @@ func (s *Server) GetProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	products, err := s.productService.ListProducts(page, amount)
+	ctx := r.Context()
+
+	products, err := s.productService.ListProducts(ctx, page, amount)
 	if err != nil {
 		err = newErrorMessage(err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -129,7 +132,9 @@ func (s *Server) AddReview(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = s.productService.AddReview(productID, p.Name, p.Text, p.Rating)
+	ctx := r.Context()
+
+	err = s.productService.AddReview(ctx, productID, p.Name, p.Text, p.Rating)
 	if err != nil {
 		err = newErrorMessage(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)

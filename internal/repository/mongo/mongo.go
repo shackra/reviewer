@@ -24,12 +24,12 @@ func New(client *mongo.Client) *Mongo {
 	}
 }
 
-func (m *Mongo) GetProducts(page, size int) ([]models.Product, bool, error) {
+func (m *Mongo) GetProducts(ctx context.Context, page, size int) ([]models.Product, bool, error) {
 	var products []models.Product
 
 	collection := m.client.Database(database).Collection(collectionName)
 
-	total, err := collection.CountDocuments(context.TODO(), bson.M{})
+	total, err := collection.CountDocuments(ctx, bson.M{})
 	if err != nil {
 		return nil, false, err
 	}
@@ -44,14 +44,14 @@ func (m *Mongo) GetProducts(page, size int) ([]models.Product, bool, error) {
 	findOptions.SetSkip(int64((page - 1) * size))
 	findOptions.SetLimit(int64(size))
 
-	cursor, err := collection.Find(context.TODO(), bson.M{}, findOptions)
+	cursor, err := collection.Find(ctx, bson.M{}, findOptions)
 	if err != nil {
 		return nil, false, err
 	}
 
-	defer cursor.Close(context.TODO())
+	defer cursor.Close(ctx)
 
-	for cursor.Next(context.TODO()) {
+	for cursor.Next(ctx) {
 		var product models.Product
 		if err := cursor.Decode(&product); err != nil {
 			return nil, false, err
@@ -62,12 +62,16 @@ func (m *Mongo) GetProducts(page, size int) ([]models.Product, bool, error) {
 	return products, totalPages-int(total) > 0, nil
 }
 
-func (m *Mongo) AddProductReview(id, reviewer, text string, rating float32) error {
+func (m *Mongo) AddProductReview(
+	ctx context.Context,
+	id, reviewer, text string,
+	rating float32,
+) error {
 	collection := m.client.Database(database).Collection(collectionName)
 
 	// FIXME: return error if ID does not exist!
 	_, err := collection.UpdateOne(
-		context.TODO(),
+		ctx,
 		bson.M{"_id": id},
 		bson.M{
 			"$push": bson.M{

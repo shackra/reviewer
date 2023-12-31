@@ -4,6 +4,7 @@
 
 package http
 
+import context "context"
 import match "github.com/subtle-byte/mockigo/match"
 import mock "github.com/subtle-byte/mockigo/mock"
 import models "github.com/shackra/reviewer/internal/models"
@@ -31,15 +32,15 @@ type _ServiceMock_AddReview_Call struct {
 	*mock.Call
 }
 
-func (_mock *ServiceMock) AddReview(_a0 string, _a1 string, _a2 string, _a3 float32) error {
+func (_mock *ServiceMock) AddReview(_a0 context.Context, _a1 string, _a2 string, _a3 string, _a4 float32) error {
 	_mock.mock.T.Helper()
-	_results := _mock.mock.Called("AddReview", _a0, _a1, _a2, _a3)
+	_results := _mock.mock.Called("AddReview", _a0, _a1, _a2, _a3, _a4)
 	_r0 := _results.Error(0)
 	return _r0
 }
 
-func (_expecter _ServiceMock_Expecter) AddReview(_a0 match.Arg[string], _a1 match.Arg[string], _a2 match.Arg[string], _a3 match.Arg[float32]) _ServiceMock_AddReview_Call {
-	return _ServiceMock_AddReview_Call{Call: _expecter.mock.ExpectCall("AddReview", _a0.Matcher, _a1.Matcher, _a2.Matcher, _a3.Matcher)}
+func (_expecter _ServiceMock_Expecter) AddReview(_a0 match.Arg[context.Context], _a1 match.Arg[string], _a2 match.Arg[string], _a3 match.Arg[string], _a4 match.Arg[float32]) _ServiceMock_AddReview_Call {
+	return _ServiceMock_AddReview_Call{Call: _expecter.mock.ExpectCall("AddReview", _a0.Matcher, _a1.Matcher, _a2.Matcher, _a3.Matcher, _a4.Matcher)}
 }
 
 func (_call _ServiceMock_AddReview_Call) Return(_r0 error) _ServiceMock_AddReview_Call {
@@ -47,7 +48,7 @@ func (_call _ServiceMock_AddReview_Call) Return(_r0 error) _ServiceMock_AddRevie
 	return _call
 }
 
-func (_call _ServiceMock_AddReview_Call) RunReturn(f func(string, string, string, float32) error) _ServiceMock_AddReview_Call {
+func (_call _ServiceMock_AddReview_Call) RunReturn(f func(context.Context, string, string, string, float32) error) _ServiceMock_AddReview_Call {
 	_call.Call.RunReturn(f)
 	return _call
 }
@@ -56,9 +57,9 @@ type _ServiceMock_ListProducts_Call struct {
 	*mock.Call
 }
 
-func (_mock *ServiceMock) ListProducts(_a0 int, _a1 int) (*models.Products, error) {
+func (_mock *ServiceMock) ListProducts(_a0 context.Context, _a1 int, _a2 int) (*models.Products, error) {
 	_mock.mock.T.Helper()
-	_results := _mock.mock.Called("ListProducts", _a0, _a1)
+	_results := _mock.mock.Called("ListProducts", _a0, _a1, _a2)
 	var _r0 *models.Products
 	if _got := _results.Get(0); _got != nil {
 		_r0 = _got.(*models.Products)
@@ -67,8 +68,8 @@ func (_mock *ServiceMock) ListProducts(_a0 int, _a1 int) (*models.Products, erro
 	return _r0, _r1
 }
 
-func (_expecter _ServiceMock_Expecter) ListProducts(_a0 match.Arg[int], _a1 match.Arg[int]) _ServiceMock_ListProducts_Call {
-	return _ServiceMock_ListProducts_Call{Call: _expecter.mock.ExpectCall("ListProducts", _a0.Matcher, _a1.Matcher)}
+func (_expecter _ServiceMock_Expecter) ListProducts(_a0 match.Arg[context.Context], _a1 match.Arg[int], _a2 match.Arg[int]) _ServiceMock_ListProducts_Call {
+	return _ServiceMock_ListProducts_Call{Call: _expecter.mock.ExpectCall("ListProducts", _a0.Matcher, _a1.Matcher, _a2.Matcher)}
 }
 
 func (_call _ServiceMock_ListProducts_Call) Return(_r0 *models.Products, _r1 error) _ServiceMock_ListProducts_Call {
@@ -76,7 +77,7 @@ func (_call _ServiceMock_ListProducts_Call) Return(_r0 *models.Products, _r1 err
 	return _call
 }
 
-func (_call _ServiceMock_ListProducts_Call) RunReturn(f func(int, int) (*models.Products, error)) _ServiceMock_ListProducts_Call {
+func (_call _ServiceMock_ListProducts_Call) RunReturn(f func(context.Context, int, int) (*models.Products, error)) _ServiceMock_ListProducts_Call {
 	_call.Call.RunReturn(f)
 	return _call
 }

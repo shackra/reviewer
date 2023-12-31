@@ -4,6 +4,7 @@
 
 package products
 
+import context "context"
 import match "github.com/subtle-byte/mockigo/match"
 import mock "github.com/subtle-byte/mockigo/mock"
 import models "github.com/shackra/reviewer/internal/models"
@@ -31,15 +32,15 @@ type _RepositoryMock_AddProductReview_Call struct {
 	*mock.Call
 }
 
-func (_mock *RepositoryMock) AddProductReview(id string, reviewer string, text string, rating float32) error {
+func (_mock *RepositoryMock) AddProductReview(ctx context.Context, id string, reviewer string, text string, rating float32) error {
 	_mock.mock.T.Helper()
-	_results := _mock.mock.Called("AddProductReview", id, reviewer, text, rating)
+	_results := _mock.mock.Called("AddProductReview", ctx, id, reviewer, text, rating)
 	_r0 := _results.Error(0)
 	return _r0
 }
 
-func (_expecter _RepositoryMock_Expecter) AddProductReview(id match.Arg[string], reviewer match.Arg[string], text match.Arg[string], rating match.Arg[float32]) _RepositoryMock_AddProductReview_Call {
-	return _RepositoryMock_AddProductReview_Call{Call: _expecter.mock.ExpectCall("AddProductReview", id.Matcher, reviewer.Matcher, text.Matcher, rating.Matcher)}
+func (_expecter _RepositoryMock_Expecter) AddProductReview(ctx match.Arg[context.Context], id match.Arg[string], reviewer match.Arg[string], text match.Arg[string], rating match.Arg[float32]) _RepositoryMock_AddProductReview_Call {
+	return _RepositoryMock_AddProductReview_Call{Call: _expecter.mock.ExpectCall("AddProductReview", ctx.Matcher, id.Matcher, reviewer.Matcher, text.Matcher, rating.Matcher)}
 }
 
 func (_call _RepositoryMock_AddProductReview_Call) Return(_r0 error) _RepositoryMock_AddProductReview_Call {
@@ -47,7 +48,7 @@ func (_call _RepositoryMock_AddProductReview_Call) Return(_r0 error) _Repository
 	return _call
 }
 
-func (_call _RepositoryMock_AddProductReview_Call) RunReturn(f func(id string, reviewer string, text string, rating float32) error) _RepositoryMock_AddProductReview_Call {
+func (_call _RepositoryMock_AddProductReview_Call) RunReturn(f func(ctx context.Context, id string, reviewer string, text string, rating float32) error) _RepositoryMock_AddProductReview_Call {
 	_call.Call.RunReturn(f)
 	return _call
 }
@@ -56,9 +57,9 @@ type _RepositoryMock_GetProducts_Call struct {
 	*mock.Call
 }
 
-func (_mock *RepositoryMock) GetProducts(page int, size int) ([]models.Product, bool, error) {
+func (_mock *RepositoryMock) GetProducts(ctx context.Context, page int, size int) ([]models.Product, bool, error) {
 	_mock.mock.T.Helper()
-	_results := _mock.mock.Called("GetProducts", page, size)
+	_results := _mock.mock.Called("GetProducts", ctx, page, size)
 	var _r0 []models.Product
 	if _got := _results.Get(0); _got != nil {
 		_r0 = _got.([]models.Product)
@@ -68,8 +69,8 @@ func (_mock *RepositoryMock) GetProducts(page int, size int) ([]models.Product, 
 	return _r0, _r1, _r2
 }
 
-func (_expecter _RepositoryMock_Expecter) GetProducts(page match.Arg[int], size match.Arg[int]) _RepositoryMock_GetProducts_Call {
-	return _RepositoryMock_GetProducts_Call{Call: _expecter.mock.ExpectCall("GetProducts", page.Matcher, size.Matcher)}
+func (_expecter _RepositoryMock_Expecter) GetProducts(ctx match.Arg[context.Context], page match.Arg[int], size match.Arg[int]) _RepositoryMock_GetProducts_Call {
+	return _RepositoryMock_GetProducts_Call{Call: _expecter.mock.ExpectCall("GetProducts", ctx.Matcher, page.Matcher, size.Matcher)}
 }
 
 func (_call _RepositoryMock_GetProducts_Call) Return(_r0 []models.Product, _r1 bool, _r2 error) _RepositoryMock_GetProducts_Call {
@@ -77,7 +78,7 @@ func (_call _RepositoryMock_GetProducts_Call) Return(_r0 []models.Product, _r1 b
 	return _call
 }
 
-func (_call _RepositoryMock_GetProducts_Call) RunReturn(f func(page int, size int) ([]models.Product, bool, error)) _RepositoryMock_GetProducts_Call {
+func (_call _RepositoryMock_GetProducts_Call) RunReturn(f func(ctx context.Context, page int, size int) ([]models.Product, bool, error)) _RepositoryMock_GetProducts_Call {
 	_call.Call.RunReturn(f)
 	return _call
 }

@@ -21,7 +21,7 @@ func TestListProducts(t *testing.T) {
 	rr := httptest.NewRecorder()
 	service := NewServiceMock(t)
 	service.EXPECT().
-		ListProducts(match.Arg[int](match.Eq[int](1)), match.Arg[int](match.Eq[int](10))).
+		ListProducts(match.AnyCtx(), match.Arg[int](match.Eq[int](1)), match.Arg[int](match.Eq[int](10))).
 		Return(&models.Products{}, nil)
 
 	api := &Server{
@@ -52,7 +52,7 @@ func TestListProductsFails(t *testing.T) {
 
 	service := NewServiceMock(t)
 	service.EXPECT().
-		ListProducts(match.Arg[int](match.Eq[int](1)), match.Arg[int](match.Eq[int](10))).
+		ListProducts(match.AnyCtx(), match.Arg[int](match.Eq[int](1)), match.Arg[int](match.Eq[int](10))).
 		Return(nil, errors.New(`random error`))
 
 	api := &Server{
@@ -84,7 +84,7 @@ func TestListProductsFails(t *testing.T) {
 func TestAddReview(t *testing.T) {
 	service := NewServiceMock(t)
 	service.EXPECT().
-		AddReview(match.Eq("123"), match.Eq("Test Name"), match.Eq("Test review text"), match.Eq[float32](5)).
+		AddReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test Name"), match.Eq("Test review text"), match.Eq[float32](5)).
 		Return(nil)
 
 	api := &Server{
@@ -124,7 +124,7 @@ func TestAddReview(t *testing.T) {
 func TestAddReviewFails(t *testing.T) {
 	service := NewServiceMock(t)
 	service.EXPECT().
-		AddReview(match.Eq("123"), match.Eq("Test Name"), match.Eq("Test review text"), match.Eq[float32](5)).
+		AddReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test Name"), match.Eq("Test review text"), match.Eq[float32](5)).
 		Return(errors.New(`random error`))
 
 	api := &Server{
