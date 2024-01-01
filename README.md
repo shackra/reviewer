@@ -34,3 +34,6 @@ Use any RESTFul client of your choice. These are the available API endpoints:
 ```
 
 the `"rating"` property is anything between `> 0 and <= 5`.
+
+## How to run unit tests
+You do that with `make test`
