@@ -61,7 +61,7 @@ func (m *Mongo) GetProducts(ctx context.Context, page, size int) ([]models.Produ
 		products = append(products, product)
 	}
 
-	return products, totalPages-int(total) > 0, nil
+	return products, totalPages-page > 0, nil
 }
 
 func (m *Mongo) AddProductReview(
