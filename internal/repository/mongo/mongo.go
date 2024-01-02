@@ -8,7 +8,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 const (
@@ -42,15 +41,27 @@ func (m *Mongo) GetProducts(ctx context.Context, page, size int) ([]models.Produ
 		totalPages++
 	}
 
-	findOptions := options.Find()
-	findOptions.SetSkip(int64((page - 1) * size))
-	findOptions.SetLimit(int64(size))
+	pipeline := bson.A{
+		bson.M{
+			"$project": bson.M{
+				"_id":            1,
+				"name":           1,
+				"description":    1,
+				"img_url":        1,
+				"average_rating": bson.M{"$avg": "$reviews.rating"},
+			},
+		},
+	}
 
-	cursor, err := collection.Find(ctx, bson.M{}, findOptions)
+	pipeline = append(pipeline,
+		bson.M{"$skip": (page - 1) * size},
+		bson.M{"$limit": size},
+	)
+
+	cursor, err := collection.Aggregate(ctx, pipeline)
 	if err != nil {
 		return nil, false, err
 	}
-
 	defer cursor.Close(ctx)
 
 	for cursor.Next(ctx) {

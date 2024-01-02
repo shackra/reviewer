@@ -39,7 +39,7 @@ func (s *Service) ListProducts(ctx context.Context, page, amount int) (*models.P
 			Name:          product.Name,
 			Description:   product.Description,
 			ThumbnailURL:  product.ImgURL,
-			OverallRating: getRating(product.Reviews),
+			AverageRating: product.AverageRating,
 		})
 	}
 

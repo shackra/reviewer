@@ -5,7 +5,7 @@ type ListProduct struct {
 	Name          string  `json:"name"`
 	Description   string  `json:"description"`
 	ThumbnailURL  string  `json:"thumbnail_url"`
-	OverallRating float32 `json:"overall_rating"`
+	AverageRating float32 `json:"average_rating"`
 }
 
 type Products struct {
