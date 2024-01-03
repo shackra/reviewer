@@ -84,7 +84,7 @@ func TestListProductsFails(t *testing.T) {
 func TestAddReview(t *testing.T) {
 	service := NewServiceMock(t)
 	service.EXPECT().
-		AddReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test Name"), match.Eq("Test review text"), match.Eq[float32](5)).
+		AddReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test Name"), match.Eq("Test review text"), match.Eq[float64](5)).
 		Return(nil)
 
 	api := &Server{
@@ -124,7 +124,7 @@ func TestAddReview(t *testing.T) {
 func TestAddReviewFails(t *testing.T) {
 	service := NewServiceMock(t)
 	service.EXPECT().
-		AddReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test Name"), match.Eq("Test review text"), match.Eq[float32](5)).
+		AddReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test Name"), match.Eq("Test review text"), match.Eq[float64](5)).
 		Return(errors.New(`random error`))
 
 	api := &Server{

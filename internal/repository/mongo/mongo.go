@@ -78,7 +78,7 @@ func (m *Mongo) GetProducts(ctx context.Context, page, size int) ([]models.Produ
 func (m *Mongo) AddProductReview(
 	ctx context.Context,
 	id, reviewer, text string,
-	rating float32,
+	rating float64,
 ) error {
 	collection := m.client.Database(database).Collection(collectionName)
 

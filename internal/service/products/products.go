@@ -12,7 +12,7 @@ type Service struct {
 
 type Repository interface {
 	GetProducts(ctx context.Context, page, size int) ([]models.Product, bool, error)
-	AddProductReview(ctx context.Context, id, reviewer, text string, rating float32) error
+	AddProductReview(ctx context.Context, id, reviewer, text string, rating float64) error
 }
 
 func New(db Repository) *Service {
@@ -46,7 +46,7 @@ func (s *Service) ListProducts(ctx context.Context, page, amount int) (*models.P
 	return list, nil
 }
 
-func (s *Service) AddReview(ctx context.Context, id, reviewer, text string, rating float32) error {
+func (s *Service) AddReview(ctx context.Context, id, reviewer, text string, rating float64) error {
 	err := s.mongo.AddProductReview(ctx, id, reviewer, text, rating)
 	if err != nil {
 		return err

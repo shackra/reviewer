@@ -15,7 +15,7 @@ import (
 
 type Service interface {
 	ListProducts(context.Context, int, int) (*models.Products, error)
-	AddReview(context.Context, string, string, string, float32) error
+	AddReview(context.Context, string, string, string, float64) error
 }
 
 type Server struct {

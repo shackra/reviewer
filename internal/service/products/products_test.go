@@ -128,7 +128,7 @@ func TestAddProductReview(t *testing.T) {
 	repo := NewRepositoryMock(t)
 
 	repo.EXPECT().
-		AddProductReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test User"), match.Eq("Lorem Ipsum"), match.Eq[float32](5)).
+		AddProductReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test User"), match.Eq("Lorem Ipsum"), match.Eq[float64](5)).
 		Return(nil)
 
 	service := &Service{
@@ -145,7 +145,7 @@ func TestAddProductReviewFails(t *testing.T) {
 	repo := NewRepositoryMock(t)
 
 	repo.EXPECT().
-		AddProductReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test User"), match.Eq("Lorem Ipsum"), match.Eq[float32](5)).
+		AddProductReview(match.AnyCtx(), match.Eq("123"), match.Eq("Test User"), match.Eq("Lorem Ipsum"), match.Eq[float64](5)).
 		Return(errors.New(`random error`))
 
 	service := &Service{
